@@ -8,29 +8,19 @@
  */
 int main(void)
 {
-int u = 49;
-int d = 48;
-int position_u = 49;
-while (d <= 56)
+int d;
+for (d = 0; d< 90; d++)
 {
-while (u <= 57)
+for ()
 {
-putchar(d);
-putchar(u);
-if (d != 56)
-{
-putchar(',');
-putchar(' ');
-if (u != 57)
+putchar((d / 10) + '0');
+putchar((d % 10) + '0');
+}
+if (d != 89)
 {
 putchar(',');
 putchar(' ');
 }
-u++;
-}
-d++;
-position_u++;
-u = position_u;
 }
 putchar('\n');
 return (0);
