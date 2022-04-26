@@ -1,68 +1,40 @@
 #include "lists.h"
-/**
- *add_nodeaddr - A function that mallocs a new space for a list
- *@head: A double pointer that points to my second list header, head_2.
- */
-addr_list *add_nodeaddr(addr_list **head, const void *addr)
-{
-	addr_list *new_node;
 
-	new_node = malloc(sizeof(addr_list));
-	if (new_node == NULL)
-	{
-		free_listaddr(*head);
-		exit (98);
-	}
-	new_node->addr = addr;
-	new_node->next = *head;
-	*head = new_node;
-	return (new_node);
-}
 /**
- *free_listaddr - a function that frees a linked list
- *@head: a pointer variable that points to the start of a newly made list
- */
-void free_listaddr(addr_list *head)
-{
-	addr_list *current_node;
-	while (head != NULL)
-	{
-		current_node = head;
-		head = head->next;
-		free(current_node);
-	}
-}
-/**
- *print_listint_safe - a function that prints the node and the
- *number within a node,
- *Return: the number of nodes
+ * free_listint_safe - frees a linked list
+ * @h: pointer to the first node in the linked list
+ *
+ * Return: number of elements in the freed list
  */
 size_t free_listint_safe(listint_t **h)
 {
-	addr_list *current_NewNode;
-	addr_list *head_2;
-	size_t i;
+	size_t len = 0;
+	int diff;
+	listint_t *temp;
 
-	i = 0;
-	head_2 = NULL;
-	while (head != NULL)
+	if (!h || !*h)
+		return (0);
+
+	while (*h)
 	{
-		current_NewNode = head_2;
-		while (current_NewNode != NULL)
+		diff = *h - (*h)->next;
+		if (diff > 0)
 		{
-			if (head == current_NewNode->addr)
-			{
-				printf("(nil), (nil)");
-				free_listaddr(head_2);
-				return (i);
-			}
-			current_NewNode = current_NewNode->next;
+			temp = (*h)->next;
+			free(*h);
+			*h = temp;
+			len++;
 		}
-		printf("[%p] %d\n", (void *)head, head->n);
-		add_nodeaddr(&head_2, head);
-		head = head->next;
-		i++;
+		else
+		{
+			free(*h);
+			*h = NULL;
+			len++;
+			break;
+		}
 	}
-	free_listaddr(head_2);
-	return (i);
+
+	*h = NULL;
+
+	return (len);
 }
